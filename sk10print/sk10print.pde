@@ -70,9 +70,12 @@ class Px {
     fill(255,255,255);
     //rect(c*w,r*h,w,h);
     int randomico=floor(random(8));
-    line(c*w+((randomico & 1) == 0 ? 0 : w),r*h+((randomico & 2)>>1 == 0 ? 0 : h), c*w+h/2,r*h+h/2);
-     randomico=floor(random(4));
-   
+    line(
+    c*w+((randomico & 1) == 0 ? 0 : w),
+    r*h+((randomico & 2)>>1 == 0 ? 0 : h), 
+    c*w+((randomico & 4)>>2 == 0 ? 0 : w),
+    r*h+((randomico & 8)>>3 == 0 ? 0 : h));
+    
   }
   
   int[] get_param(){
