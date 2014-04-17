@@ -7,7 +7,7 @@ class Px{
   y=n_y;
  } 
  void display(){
-   //vertex(x,y); 
+   vertex(x,y); 
  }
  int getX(){
    return(x);

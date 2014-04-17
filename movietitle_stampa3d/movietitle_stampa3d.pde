@@ -20,19 +20,13 @@ void draw(){
   background(0);
   
   noStroke();
-  if(mousePressed && first){
   pxs.add(new Px(mouseX, mouseY));  // Start by adding one element
-  if(!oneshot){
-    posX=mouseX-1;
-    posY=mouseY-1;
-  }
-  oneshot=true;
-  }else if(oneshot) first=false;
   
   float tmp_dist=0;
   int prev_x=0;
   int prev_y=0;
   int tmp_i=0;
+  beginShape();
   for(int i=0; i<pxs.size();i++){
     Px px=pxs.get(i);
     if(tmp_dist<=dista){
@@ -45,11 +39,10 @@ void draw(){
       prev_x=px.getX();
       prev_y=px.getY();
       tmp_i=i;
-    }
-      
-    
+    }  
     px.display();
   }
+  endShape();
   
   //if(time+50<millis()){
     //aggiungo alla posizione dell'ellisse il corrispettivo cartesiano x e y della velocità moltiplicato per il tempo
@@ -64,10 +57,5 @@ void draw(){
    
     tmp_size=dist(px.getX(),px.getY(),prev_x,prev_y)/tmp_vel*2;
   }*/   
-   
-  
-  
-  ellipse(posX,posY,tmp_size,tmp_size);
-  //
 }
 
