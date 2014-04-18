@@ -2,12 +2,29 @@
 class Control{
   StringList nome = new StringList();
   StringList stato = new StringList();
+  IntList time = new IntList();
   
   
   void setS(String n, String s){
     if(getS(n)!=s){
       nome.append(n);
       stato.append(s);
+      time.append(millis());
+    }
+  }
+  
+  int getT(String n){
+   int tmp_i=-1;
+    for(int i=nome.size()-1; i>=0;i--){
+     if(nome.get(i) == n ){
+       tmp_i=i;
+     break;}
+    }
+
+    if(tmp_i==-1) return(-1);
+    
+    else{
+      return time.get(tmp_i);
     }
   }
   

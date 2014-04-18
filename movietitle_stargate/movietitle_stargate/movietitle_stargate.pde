@@ -9,7 +9,9 @@ todo:
 - attivare l'animazione dello stargate
 
 
+Premere A o a per attivare la rotazione
 
+Premere s o S per spostare la luce di sfondo
 
 
 */
@@ -53,16 +55,41 @@ void draw(){
       if(stato.getS("ruota")!="attivo"){
         stato.setS("registra","disabilitato");
         stato.setS("ruota","attivo");
+         stato.setS("tracciato","finito");
         frame=0;
+        
       }
+    }if (key == 's' || key == 'S') {
+      if(millis()-stato.getT("luce")>1000){
+        if(stato.getS("luce")=="segui mouse"){
+         
+          stato.setS("luce","reset");
+          g_x_luce=width/2;
+          g_y_luce=height/2;
+         
+          
+        }else{
+         
+         
+         stato.setS("luce","segui mouse");
+        }
+      }
+      
     }
   }
   if(stato.getS("setup")=="avvia"){
     stato.setS("setup","done");
     stato.setS("registra","abilitata");
   }
+  if(stato.getS("luce")=="segui mouse"){
+     g_x_luce=mouseX;
+     g_y_luce=mouseY;
+  
+  }
   if(stato.getS("registra")=="abilitata" && g_angolo<2*PI){ 
-    if(mousePressed){ 
+    if(mousePressed){
+     
+      g_d_luce=150; 
       stato.setS("tracciato","iniziato");
       registra();
     }else if(stato.getS("tracciato")=="iniziato"){
@@ -73,12 +100,17 @@ void draw(){
   }
   
   if(stato.getS("ruota")=="attivo" && g_angolo<2*PI){
-    int tot_frame_roto=1000;
+    int tot_frame_roto=600;
+    float rotaz=PI*2/5;
     if(frame<tot_frame_roto){
-    frame++;
-     g_angolo+=(PI/12 * abs(sin(PI/tot_frame_roto*frame)))-(PI/12 * abs(sin(PI/tot_frame_roto*(frame-1))));
-    
+      frame++;
+     g_angolo+=rotaz/tot_frame_roto;//abs((rotaz/2 * (cos(PI/tot_frame_roto*frame)))-(rotaz/2 * (cos(PI/tot_frame_roto*(frame-1)))));
+     // else g_angolo+=(rotaz * abs(sin(PI/tot_frame_roto*(frame-1))))-(rotaz * (sin(PI/tot_frame_roto*(frame))));
+    g_d_luce=150-100/tot_frame_roto*frame;
     println(frame);
+    }else{
+      stato.setS("ruota","disattivo");
+      stato.setS("registra","abilitata");
     }
   }
   
@@ -87,14 +119,8 @@ void draw(){
   }
 disegna();  
   
+saveFrame("starcagate-######.png");  
   
   
-  
-}
-
-
-void trace(String str){
-  
-  println(str);
 }
 

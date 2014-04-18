@@ -43,7 +43,10 @@ class Px{
          }
            
            
-        point(n_x+(n_x-g_x_luce)/cos_l*l_traspare/prog_tot*prog,n_y+(n_y-g_y_luce)/cos_l*l_traspare/prog_tot*prog);
+        point(
+          n_x+(n_x-g_x_luce)/cos_l*l_traspare/prog_tot*prog+random(-1,1)/prog_tot*prog,
+          n_y+(n_y-g_y_luce)/cos_l*l_traspare/prog_tot*prog+random(-1,1)/prog_tot*prog
+        );
       }
       }
      stroke(255,255,255,100);
