@@ -1,6 +1,102 @@
 
+class Control{
+  StringList nome = new StringList();
+  StringList stato = new StringList();
+  
+  
+  void setS(String n, String s){
+    if(getS(n)!=s){
+      nome.append(n);
+      stato.append(s);
+    }
+  }
+  
+  String getS(String n){
+    int tmp_i=-1;
+    for(int i=nome.size()-1; i>=0;i--){
+     if(nome.get(i) == n ){
+       tmp_i=i;
+     break;}
+    }
+
+    if(tmp_i==-1) return("");
+    
+    else{
+      return stato.get(tmp_i);
+    }
+  }
+}
+
+
+
+
+void registra(){
+   //   trace(" getS "+getS(1)+" stato:"+stato);
+   pxs.add(new Px(mouseX, mouseY, g_livello,g_tracciato, -g_angolo));  // Start by adding one element
+   
+ }
+
+
+
+void disegna(){
+ // g_angolo+=0.001;
+  int tmp_tracciato=-1;
+  int tmp_dist=0;
+  int prev_x=0;
+  int prev_y=0;
+  int tmp_i=0;
+  for(int i=0; i<pxs.size();i++){
+    Px px=pxs.get(i);
+    
+      
+    if(tmp_tracciato==px.getTracciato()){
+     stroke(255,255,255,30);
+   //   line(prev_x,prev_y,px.getX(),px.getY());
+    }
+      if(i==0){
+        prev_x=px.getX();
+        prev_y=px.getY();
+      }
+      
+      tmp_dist+=(dist(int(prev_x),int(prev_y),int(px.getX()),int(px.getY())));
+      prev_x=px.getX();
+      prev_y=px.getY();
+      tmp_i=i;
+    
+    px.display(g_angolo,g_x_centro,g_y_centro);
+    
+    tmp_tracciato=px.getTracciato();
+  }
+}
+
+
+
+
+/*
+
+  void setS(float stato, int f, int p){  //f:fase p:profondità
+   p++;
+   stato=floor(stato)+abs(f)/pow(10,abs(p)-1);
+   if(abs(p)==1) stato=abs(f);  
+  }
+  
+  float getS(float stato, int p){//p: profondità
+    p++;
+    if(p>1) return(floor((stato%(p-1))*10));
+    else return(floor(stato));
+   
+  }
+
+
+
+
+
+
+
 class Io {
-  float stato=0;
+  float s_registra=0;
+  float s_disegna=0;
+  
   int livello=0;
   float angolo=0;
   int tracciato=0;  
@@ -28,7 +124,7 @@ class Io {
       break;
       case 1: //disegna
         registra(); 
-   disegna();     
+        disegna();     
       
       break;
       case 2: //luce
@@ -51,73 +147,6 @@ class Io {
  
   }
   
-    
-    
- void registra(){   
-      trace(" getS "+getS(1)+" stato:"+stato);
-  if(getS(1) == 0){
-    if(mousePressed){
-      setS(1,1);
-     }
-  }
-   if(getS(1) == 1){
-      if(mousePressed){
-         pxs.add(new Px(mouseX, mouseY, livello,tracciato, -g_angolo));  // Start by adding one element
-         trace("scrivo!");
-      }else{
-         tracciato++;
-         //setS(2,1);
-      }
-   
-   }   
- }
-
-void disegna(){
-  g_angolo+=0.001;
-  int tmp_tracciato=-1;
-  int tmp_dist=0;
-  int prev_x=0;
-  int prev_y=0;
-  int tmp_i=0;
-  for(int i=0; i<pxs.size();i++){
-    Px px=pxs.get(i);
-    if(tmp_dist<=dista){
-      if(i==0){
-        prev_x=px.getX();
-        prev_y=px.getY();
-      }
       
-      tmp_dist+=(dist(int(prev_x),int(prev_y),int(px.getX()),int(px.getY())));
-      prev_x=px.getX();
-      prev_y=px.getY();
-      tmp_i=i;
-    }  
-    if(tmp_tracciato!=px.getTracciato() && tmp_tracciato!=-1) endShape();
-    if(tmp_tracciato!=px.getTracciato()) beginShape();
-    px.display(g_angolo,x_centro,y_centro);
-    tmp_tracciato=px.getTracciato();
-  }
-  
-  
-  
 }
-
-
-
-
-
-  void setS(int f, int p){  //f:fase p:profondità
-   p++;
-   stato=floor(stato)+abs(f)/pow(10,abs(p)-1);
-   if(abs(p)==1) stato=abs(f);  
-  }
-  
-  float getS(int p){//p: profondità
-    p++;
-    if(p>1) return(floor((stato%(p-1))*10));
-    else return(floor(stato));
-   
-  }
-  
-}
-
+*/
