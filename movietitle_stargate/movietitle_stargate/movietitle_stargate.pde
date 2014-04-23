@@ -1,4 +1,8 @@
 /*
+Descrizione: 
+
+
+
 todo: 
 - salvare da ogni press al release successivo del mouse il tratto disegnato in un array con un livello diverso
 - al release bloccare la possibilià di disegnare
@@ -30,15 +34,15 @@ int g_livello=0;
 float g_diametro=1000;
 float g_y_centro=g_diametro;
 float g_x_centro=0;
-float g_d_luce=150;
+float g_d_luce=800;
 float g_x_luce=0;
 float g_y_luce=0; 
-float g_r_luce=250; 
+float g_r_luce=1000; 
 int g_tracciato=0;
 int frame=0;
 
 void setup(){
-  size(500,500);
+  size(1024,600);
   stato.setS("setup","avvia");
   g_x_centro=width/2;
   g_x_luce=width/2;
@@ -89,7 +93,7 @@ void draw(){
   if(stato.getS("registra")=="abilitata" && g_angolo<2*PI){ 
     if(mousePressed){
      
-      g_d_luce=150; 
+     
       stato.setS("tracciato","iniziato");
       registra();
     }else if(stato.getS("tracciato")=="iniziato"){
@@ -106,7 +110,8 @@ void draw(){
       frame++;
      g_angolo+=rotaz/tot_frame_roto;//abs((rotaz/2 * (cos(PI/tot_frame_roto*frame)))-(rotaz/2 * (cos(PI/tot_frame_roto*(frame-1)))));
      // else g_angolo+=(rotaz * abs(sin(PI/tot_frame_roto*(frame-1))))-(rotaz * (sin(PI/tot_frame_roto*(frame))));
-    g_d_luce=150-100/tot_frame_roto*frame;
+    g_d_luce=600;
+    g_r_luce=800;
     println(frame);
     }else{
       stato.setS("ruota","disattivo");
@@ -119,7 +124,7 @@ void draw(){
   }
 disegna();  
   
-saveFrame("starcagate-######.png");  
+//saveFrame("starcagate-######.png");  
   
   
 }
