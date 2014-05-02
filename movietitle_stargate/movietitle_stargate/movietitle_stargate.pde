@@ -1,8 +1,6 @@
 /*
 Descrizione: 
 
-
-
 todo: 
 - salvare da ogni press al release successivo del mouse il tratto disegnato in un array con un livello diverso
 - al release bloccare la possibilià di disegnare
@@ -19,6 +17,10 @@ Premere s o S per spostare la luce di sfondo
 
 
 */
+
+
+
+
 ArrayList<Px> pxs;
 Control stato=new Control();
 float posX=1;
@@ -43,6 +45,7 @@ int frame=0;
 
 void setup(){
   size(1024,600);
+
   stato.setS("setup","avvia");
   g_x_centro=width/2;
   g_x_luce=width/2;
@@ -53,6 +56,10 @@ void setup(){
 }
 
 void draw(){
+  
+  //filter(BLUR, 1);
+  PImage img;
+  
   background(0);
   if (keyPressed) {
     if (key == 'a' || key == 'A') {
@@ -122,6 +129,8 @@ void draw(){
   if(g_stato==2 && g_angolo>=2*PI){
     //animazione finale
   }
+
+
 disegna();  
   
 //saveFrame("starcagate-######.png");  

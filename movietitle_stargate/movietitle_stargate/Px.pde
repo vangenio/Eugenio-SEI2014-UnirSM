@@ -13,6 +13,7 @@ class Px{
   tracciato=n_tracciato;
  } 
  void display(float ext_angolo,float x_centro, float y_centro){
+
    float n_x=x_centro + (x-x_centro)*cos(angolo+ext_angolo)- (y-y_centro)*sin(angolo+ext_angolo);
    float n_y=y_centro + (x-x_centro)*sin(angolo+ext_angolo) + (y-y_centro)*cos(angolo+ext_angolo);
   
@@ -25,6 +26,7 @@ class Px{
     if(r_luce>l_punto_luce){
       int prog_tot=round(l_traspare)+10;
       strokeWeight(random(1,2));
+      /*
       for(int prog=1;prog<prog_tot;prog++){
         
         float r_dist=dist(
@@ -47,12 +49,15 @@ class Px{
           n_x+(n_x-g_x_luce)/cos_l*l_traspare/prog_tot*prog+random(-1,1)/prog_tot*prog,
           n_y+(n_y-g_y_luce)/cos_l*l_traspare/prog_tot*prog+random(-1,1)/prog_tot*prog
         );
-      }
-      }
+      }*/
+      
+      
      stroke(255,255,255,100);
-      strokeWeight(1);
-     vertex(n_x,n_y); 
-     // line(n_x,n_y, n_x+(n_x-g_x_luce)/cos_l*l_traspare,n_y+(n_y-g_y_luce)/cos_l*l_traspare);
+     strokeWeight(1);
+     vertex(
+     line(n_x,n_y, n_x+(n_x-g_x_luce)/cos_l*l_traspare,n_y+(n_y-g_y_luce)/cos_l*l_traspare);
+      
+      }
  }
  int getX(){
    return(x);

@@ -62,13 +62,19 @@ void disegna(){
   int prev_x=0;
   int prev_y=0;
   int tmp_i=0;
+  
+    //pg.beginDraw();
+
+  
+  
   for(int i=0; i<pxs.size();i++){
     Px px=pxs.get(i);
     
-      
-    if(tmp_tracciato==px.getTracciato()){
+    int bordo=0;
+    
+    if(tmp_tracciato!=px.getTracciato()){
      stroke(255,255,255,30);
-   //   line(prev_x,prev_y,px.getX(),px.getY());
+    //   line(prev_x,prev_y,px.getX(),px.getY());
     }
       if(i==0){
         prev_x=px.getX();
@@ -79,11 +85,20 @@ void disegna(){
       prev_x=px.getX();
       prev_y=px.getY();
       tmp_i=i;
-    
+    if(i%2==0){
+      endShape();
+      beginShape();
+    }
     px.display(g_angolo,g_x_centro,g_y_centro);
     
     tmp_tracciato=px.getTracciato();
   }
+  
+  //pg.endDraw();
+  
+  //image(pg, 0, 0); 
+
+  
 }
 
 
