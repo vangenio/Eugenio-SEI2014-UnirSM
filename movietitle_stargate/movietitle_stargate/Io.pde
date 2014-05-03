@@ -66,29 +66,51 @@ void disegna(){
     //pg.beginDraw();
 
   
-  
+  float[] ray=new float[4];
+  float[] prev_ray=new float[4];
+    
   for(int i=0; i<pxs.size();i++){
     Px px=pxs.get(i);
     
     int bordo=0;
-    
-    if(tmp_tracciato!=px.getTracciato()){
-     stroke(255,255,255,30);
-    //   line(prev_x,prev_y,px.getX(),px.getY());
-    }
-      
       tmp_dist+=(dist(int(prev_x),int(prev_y),int(px.getX()),int(px.getY())));
       tmp_i=i;
-    if(i>0){
-      endShape();
-    
-      beginShape();
-    }
-    prev_x=px.getX();
-    prev_y=px.getY();
+     if(px.getRay(g_angolo,g_x_centro,g_y_centro)[0]>0){
+       println("blablacar");
+      ray=px.getRay(g_angolo,g_x_centro,g_y_centro);
+     }else{
+       
+       println("STISTISTI");
+     }
    
+   
+    if(tmp_tracciato==px.getTracciato()){
+       
     
-    px.display(g_angolo,g_x_centro,g_y_centro);
+     beginShape();
+      fill(255);
+      stroke(255);
+      vertex(prev_ray[0],prev_ray[1]);
+      vertex(prev_ray[0]+prev_ray[2],prev_ray[1]+prev_ray[3]);
+      vertex(ray[0]+ray[2],ray[1]+ray[3]);
+      vertex(ray[0],ray[1]);
+      vertex(prev_ray[0],prev_ray[1]);
+      //println(ray);
+      endShape();
+      
+    }
+    
+      
+    
+    
+    
+   /*   
+    if(i>0){
+    }*/
+    prev_ray=ray;
+    //prev_x=px.getX();
+    //prev_y=px.getY();
+    //px.display(g_angolo,g_x_centro,g_y_centro);
     
     tmp_tracciato=px.getTracciato();
   }

@@ -60,8 +60,8 @@ class Px{
       }
  }
  
- int[] getRay(float ext_angolo,float x_centro, float y_centro){
-   int[] ray=new int[4];
+ float[] getRay(float ext_angolo,float x_centro, float y_centro){
+   float[] ray=new float[4];
    ray[0]=-1;
    ray[1]=-1;
    ray[2]=-1;
@@ -77,11 +77,12 @@ class Px{
    float l_traspare = cos_l/ l_punto_luce *(r_luce-l_punto_luce);
     if(r_luce>l_punto_luce){
       int prog_tot=round(l_traspare)+10;
-      ray[0]=n_x;
-      ray[1]=n_y;
-      ray[2]=(n_x-g_x_luce)/cos_l*l_traspare;
+       ray[2]=(n_x-g_x_luce)/cos_l*l_traspare;
       ray[3]=(n_y-g_y_luce)/cos_l*l_traspare;
      }  
+     ray[0]=n_x;
+      ray[1]=n_y;
+     
    return ray;
    
  }
@@ -92,7 +93,7 @@ class Px{
  int getY(){
    return(y);
  }
- int getTracciato(){
+ int getTracciato(){ 
    return(tracciato);
  }
 }
