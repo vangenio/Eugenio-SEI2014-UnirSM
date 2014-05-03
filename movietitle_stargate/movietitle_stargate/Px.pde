@@ -54,11 +54,38 @@ class Px{
       
      stroke(255,255,255,100);
      strokeWeight(1);
-     vertex(
+     //vertex(
      line(n_x,n_y, n_x+(n_x-g_x_luce)/cos_l*l_traspare,n_y+(n_y-g_y_luce)/cos_l*l_traspare);
       
       }
  }
+ 
+ int[] getRay(float ext_angolo,float x_centro, float y_centro){
+   int[] ray=new int[4];
+   ray[0]=-1;
+   ray[1]=-1;
+   ray[2]=-1;
+   ray[3]=-1;
+   
+   
+   
+   float n_x=x_centro + (x-x_centro)*cos(angolo+ext_angolo)- (y-y_centro)*sin(angolo+ext_angolo);
+   float n_y=y_centro + (x-x_centro)*sin(angolo+ext_angolo) + (y-y_centro)*cos(angolo+ext_angolo);
+   float cos_l=dist(n_x,n_y,g_x_luce,g_y_luce);
+   float l_punto_luce=dist(0,g_d_luce,cos_l,0);
+   float r_luce=g_r_luce*random(0.99,1.01);
+   float l_traspare = cos_l/ l_punto_luce *(r_luce-l_punto_luce);
+    if(r_luce>l_punto_luce){
+      int prog_tot=round(l_traspare)+10;
+      ray[0]=n_x;
+      ray[1]=n_y;
+      ray[2]=(n_x-g_x_luce)/cos_l*l_traspare;
+      ray[3]=(n_y-g_y_luce)/cos_l*l_traspare;
+     }  
+   return ray;
+   
+ }
+ 
  int getX(){
    return(x);
  }

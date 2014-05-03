@@ -76,19 +76,18 @@ void disegna(){
      stroke(255,255,255,30);
     //   line(prev_x,prev_y,px.getX(),px.getY());
     }
-      if(i==0){
-        prev_x=px.getX();
-        prev_y=px.getY();
-      }
       
       tmp_dist+=(dist(int(prev_x),int(prev_y),int(px.getX()),int(px.getY())));
-      prev_x=px.getX();
-      prev_y=px.getY();
       tmp_i=i;
-    if(i%2==0){
+    if(i>0){
       endShape();
+    
       beginShape();
     }
+    prev_x=px.getX();
+    prev_y=px.getY();
+   
+    
     px.display(g_angolo,g_x_centro,g_y_centro);
     
     tmp_tracciato=px.getTracciato();
