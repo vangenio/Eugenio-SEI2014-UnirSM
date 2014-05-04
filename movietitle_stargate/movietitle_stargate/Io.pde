@@ -68,7 +68,7 @@ void disegna(){
   
   float[] ray=new float[4];
   float[] prev_ray=new float[4];
-    
+ 
   for(int i=0; i<pxs.size();i++){
     Px px=pxs.get(i);
     
@@ -76,13 +76,8 @@ void disegna(){
       tmp_dist+=(dist(int(prev_x),int(prev_y),int(px.getX()),int(px.getY())));
       tmp_i=i;
      if(px.getRay(g_angolo,g_x_centro,g_y_centro)[0]>0){
-       println("blablacar");
       ray=px.getRay(g_angolo,g_x_centro,g_y_centro);
-     }else{
-       
-       println("STISTISTI");
      }
-   
    
     if(tmp_tracciato==px.getTracciato()){
        

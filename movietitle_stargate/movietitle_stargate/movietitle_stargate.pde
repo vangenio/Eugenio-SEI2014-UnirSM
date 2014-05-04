@@ -20,6 +20,11 @@ Premere s o S per spostare la luce di sfondo
 
 
 
+PImage img;
+
+
+
+
 
 ArrayList<Px> pxs;
 Control stato=new Control();
@@ -53,12 +58,15 @@ void setup(){
   pxs = new ArrayList<Px>();  // Create an empty ArrayList
   background(0);
   time=millis();
+
+
 }
 
 void draw(){
-  
-  //filter(BLUR, 1);
-  PImage img;
+//  filter(blur); // Blurs more each time through draw()
+    //filter(BLUR, 1);
+
+//  PImage img;
   
   background(0);
   if (keyPressed) {
