@@ -68,6 +68,12 @@ void disegna(){
   
   float[] ray=new float[4];
   float[] prev_ray=new float[4];
+ PImage sfuma=createImage(100, 100, ARGB);
+sfuma.loadPixels();
+for (int i = 0; i < sfuma.pixels.length; i++) {
+  sfuma.pixels[i] = color(0, 255, 255, 255*i/sfuma.height); 
+}
+sfuma.updatePixels();
  
   for(int i=0; i<pxs.size();i++){
     Px px=pxs.get(i);
@@ -83,8 +89,10 @@ void disegna(){
        
     
      beginShape();
-      fill(255);
-      stroke(255);
+     
+  noStroke();
+      texture(sfuma);
+      fill(255,0,0);
       vertex(prev_ray[0],prev_ray[1]);
       vertex(prev_ray[0]+prev_ray[2],prev_ray[1]+prev_ray[3]);
       vertex(ray[0]+ray[2],ray[1]+ray[3]);

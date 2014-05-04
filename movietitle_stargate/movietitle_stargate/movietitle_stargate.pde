@@ -18,9 +18,10 @@ Premere s o S per spostare la luce di sfondo
 
 */
 
+import javax.media.opengl.*;
+import processing.opengl.*;
 
-
-PImage img;
+PImage sfuma;
 
 
 
@@ -49,8 +50,10 @@ int g_tracciato=0;
 int frame=0;
 
 void setup(){
-  size(1024,600);
+  size(1024,600,OPENGL);
 
+ 
+ 
   stato.setS("setup","avvia");
   g_x_centro=width/2;
   g_x_luce=width/2;
