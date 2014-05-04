@@ -60,7 +60,7 @@ class Px{
       }
  }
  
- float[] getRay(float ext_angolo,float x_centro, float y_centro){
+ float[] getRay(float ext_angolo,float x_centro, float y_centro, float n_i, float n_t){
    float[] ray=new float[4];
    ray[0]=-1;
    ray[1]=-1;
@@ -73,7 +73,7 @@ class Px{
    float n_y=y_centro + (x-x_centro)*sin(angolo+ext_angolo) + (y-y_centro)*cos(angolo+ext_angolo);
    float cos_l=dist(n_x,n_y,g_x_luce,g_y_luce);
    float l_punto_luce=dist(0,g_d_luce,cos_l,0);
-   float r_luce=g_r_luce;//*random(0.99,1.01);
+   float r_luce=g_r_luce+100*noise(n_i,n_t);//*random(0.99,1.01);
    float l_traspare = cos_l/ l_punto_luce *(r_luce-l_punto_luce);
     if(r_luce>l_punto_luce){
       int prog_tot=round(l_traspare)+10;

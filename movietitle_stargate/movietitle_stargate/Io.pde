@@ -71,7 +71,7 @@ void disegna(){
  PImage sfuma=createImage(100, 100, ARGB);
 sfuma.loadPixels();
 for (int i = 0; i < sfuma.pixels.length; i++) {
-  sfuma.pixels[i] = color(255, 255, 255, 255-255*i/sfuma.width/sfuma.width); 
+  sfuma.pixels[i] = color(255, 255, 255, 100-100*(i % sfuma.width)/sfuma.width); 
 }
 sfuma.updatePixels();
  
@@ -81,11 +81,11 @@ sfuma.updatePixels();
     int bordo=0;
       tmp_dist+=(dist(int(prev_x),int(prev_y),int(px.getX()),int(px.getY())));
       tmp_i=i;
-     if(px.getRay(g_angolo,g_x_centro,g_y_centro)[0]>0){
-      ray=px.getRay(g_angolo,g_x_centro,g_y_centro);
+     if(px.getRay(g_angolo,g_x_centro,g_y_centro,float(i)/10.0,float(millis())/3000.0)[0]>0){
+      ray=px.getRay(g_angolo,g_x_centro,g_y_centro,float(i)/10.0,float(millis())/3000.0);
      }
    
-    if(tmp_tracciato==px.getTracciato()){
+    if(tmp_tracciato==px.getTracciato() ){
        
     
      beginShape();

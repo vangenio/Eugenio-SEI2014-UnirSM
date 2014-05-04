@@ -51,7 +51,6 @@ int frame=0;
 
 void setup(){
   size(1024,600,OPENGL);
-
  
  
   stato.setS("setup","avvia");
@@ -66,6 +65,8 @@ void setup(){
 }
 
 void draw(){
+  
+g_d_luce=800+100*noise(1000+float(millis())/5000.0);
 //  filter(blur); // Blurs more each time through draw()
     //filter(BLUR, 1);
 
@@ -128,9 +129,9 @@ void draw(){
       frame++;
      g_angolo+=rotaz/tot_frame_roto;//abs((rotaz/2 * (cos(PI/tot_frame_roto*frame)))-(rotaz/2 * (cos(PI/tot_frame_roto*(frame-1)))));
      // else g_angolo+=(rotaz * abs(sin(PI/tot_frame_roto*(frame-1))))-(rotaz * (sin(PI/tot_frame_roto*(frame))));
-    g_d_luce=600;
-    g_r_luce=800;
-    println(frame);
+    //g_d_luce=600;
+    //g_r_luce=800;
+    //println(frame);
     }else{
       stato.setS("ruota","disattivo");
       stato.setS("registra","abilitata");
