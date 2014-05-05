@@ -18,9 +18,8 @@ Premere s o S per spostare la luce di sfondo
 
 */
 
-import javax.media.opengl.*;
-import processing.opengl.*;
-
+//import javax.media.opengl.*;
+//import processing.opengl.*;
 PImage sfuma;
 
 

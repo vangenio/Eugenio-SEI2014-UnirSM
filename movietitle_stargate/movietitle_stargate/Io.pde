@@ -49,8 +49,14 @@ class Control{
 
 void registra(){
    //   trace(" getS "+getS(1)+" stato:"+stato);
-   pxs.add(new Px(mouseX, mouseY, g_livello,g_tracciato, -g_angolo));  // Start by adding one element
-   
+ 
+   if(pxs.size()>0){
+    Px px=pxs.get(pxs.size()-1);
+     if(dist(mouseX,mouseY,px.getX(),px.getY())>1) pxs.add(new Px(mouseX, mouseY, g_livello,g_tracciato, -g_angolo));  // Start by adding one element
+   }else{
+     pxs.add(new Px(mouseX, mouseY, g_livello,g_tracciato, -g_angolo));  // Start by adding one element
+     
+   }
  }
 
 
@@ -71,7 +77,7 @@ void disegna(){
  PImage sfuma=createImage(100, 100, ARGB);
 sfuma.loadPixels();
 for (int i = 0; i < sfuma.pixels.length; i++) {
-  sfuma.pixels[i] = color(255, 255, 255, 100-100*(i % sfuma.width)/sfuma.width); 
+  sfuma.pixels[i] = color(255, 255, 255, 100*cos((float(i) % float(sfuma.width))/float(sfuma.width)*PI/2)); 
 }
 sfuma.updatePixels();
  
@@ -87,20 +93,21 @@ sfuma.updatePixels();
    
     if(tmp_tracciato==px.getTracciato() ){
        
-    
+   // if(abs(ray[2])>0 && abs(ray [3])>0 && abs(prev_ray[2])>0 && abs(prev_ray[3])>0){
      beginShape();
      
   noStroke();
       texture(sfuma);
       fill(255,0,0);
+      int textmax=100;
       vertex(prev_ray[0],prev_ray[1],0,0);
-      vertex(prev_ray[0]+prev_ray[2],prev_ray[1]+prev_ray[3],100,0);
-      vertex(ray[0]+ray[2],ray[1]+ray[3],100,100);
-      vertex(ray[0],ray[1],0,100);
+      vertex(prev_ray[0]+prev_ray[2]+5*noise(1000+float(millis())/3000),prev_ray[1]+prev_ray[3]+5*noise(1000+float(millis())/3000),textmax,0);
+      vertex(ray[0]+ray[2]+5*noise(1000+float(millis())/3000),ray[1]+ray[3]+5*noise(1000+float(millis())/3000),textmax,textmax);
+      vertex(ray[0],ray[1],0,textmax);
       vertex(prev_ray[0],prev_ray[1],0,0);
       //println(ray);
       endShape();
-      
+    //}
     }
     
       
