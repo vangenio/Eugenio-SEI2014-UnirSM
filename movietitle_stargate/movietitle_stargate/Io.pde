@@ -76,7 +76,8 @@ void disegna(ArrayList<Px> pxs_tmp){
   PImage sfuma=createImage(100, 100, ARGB);
   sfuma.loadPixels();
   for (int i = 0; i < sfuma.pixels.length; i++) {
-    sfuma.pixels[i] = color(255, 255, 255,255*cos((float(i) % float(sfuma.width))/float(sfuma.width)*PI/2)); 
+    float pos=cos((float(i) % float(sfuma.width))/float(sfuma.width)*PI/2);
+    sfuma.pixels[i] = color(200+55*pos,200+55*pos, 255,180*pos); 
   }
   sfuma.updatePixels();
   int textmax=100;

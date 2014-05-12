@@ -45,7 +45,7 @@ float g_x_centro=0;
 float g_d_luce=800;
 float g_x_luce=0;
 float g_y_luce=0; 
-float g_r_luce=1000; 
+float g_r_luce=1000;
 int g_tracciato=0;
 int frame=0;
 void setup(){
@@ -72,7 +72,23 @@ g_d_luce=800+100*noise(1000+float(millis())/5000.0);
   
   background(0);
   if (keyPressed) {
-    if (key == 'a' || key == 'A') {
+    if (key == 'q' || key == 'Q') {
+      if(stato.getS("ruota")!="attivo"){
+        stato.setS("registra","disabilitato");
+        stato.setS("ruota","attivo");
+         stato.setS("tracciato","finito");
+        frame=0;
+        
+      }
+    }if (key == 'w' || key == 'W') {
+      if(stato.getS("ruota")!="attivo"){
+        stato.setS("registra","disabilitato");
+        stato.setS("ruota","attivo");
+         stato.setS("tracciato","finito");
+        frame=0;
+        
+      }
+    }if (key == 'a' || key == 'A') {
       if(stato.getS("ruota")!="attivo"){
         stato.setS("registra","disabilitato");
         stato.setS("ruota","attivo");
