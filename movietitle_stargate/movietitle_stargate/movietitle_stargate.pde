@@ -27,7 +27,7 @@ PImage sfuma;
 
 
 
-ArrayList<Px> pxs = new ArrayList<Px>(1);  // Create an empty ArrayList
+ArrayList<Px> pxs = new ArrayList<Px>();  // Create an empty ArrayList
 Control stato=new Control();
 float posX=1;
 float posY=1;
@@ -141,7 +141,7 @@ g_d_luce=800+100*noise(1000+float(millis())/5000.0);
   }
 
 
-disegna();  
+disegna(pxs);  
   
 //saveFrame("starcagate-######.png");  
   

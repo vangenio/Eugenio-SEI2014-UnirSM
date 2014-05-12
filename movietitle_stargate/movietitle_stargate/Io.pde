@@ -64,7 +64,7 @@ void registra(){
 
 
 
-void disegna(){
+void disegna(ArrayList<Px> pxs_tmp){
  // g_angolo+=0.001;
   int tmp_tracciato=-1;
   int tmp_dist=0;
@@ -79,20 +79,11 @@ void disegna(){
     sfuma.pixels[i] = color(255, 255, 255,255*cos((float(i) % float(sfuma.width))/float(sfuma.width)*PI/2)); 
   }
   sfuma.updatePixels();
-  
-  beginShape();
-  noStroke();
-  texture(sfuma);
   int textmax=100;
-  vertex(0,0,0,0);
-  vertex(0,100,textmax,0);
-  vertex(100,100,textmax,textmax);
-  vertex(100,0,0,textmax);
-  vertex(0,0,0,0);
-  endShape();
-  if(pxs.size()>2){
-    for(int i=0; i<pxs.size()-1;i++){
-      Px px=pxs.get(i);
+
+  if(pxs_tmp.size()>2){
+    for(int i=0; i<pxs_tmp.size()-1;i++){
+      Px px=pxs_tmp.get(i);
       int bordo=0;
       tmp_dist+=(dist(int(prev_x),int(prev_y),int(px.getX()),int(px.getY())));
       tmp_i=i;
@@ -111,6 +102,7 @@ void disegna(){
           beginShape();
           noStroke();
           texture(sfuma);
+         
           vertex(p.get(0).x,p.get(0).y,0,0);
           vertex(p.get(1).x,p.get(1).y,textmax,0);
           vertex(p.get(2).x,p.get(2).y,textmax,textmax);
@@ -129,11 +121,25 @@ void disegna(){
 
 
 boolean self_intersect(ArrayList<CooPx> p ){
+  for(int i=0; i<p.size();i++){
+    if(Float.isNaN(p.get(i).x)) {
+     println("na na na");
+      return(true);
+    }
+    if(Float.isNaN(p.get(i).y)) {
+      
+     println("na na na");
+      return(true);
+    }
+  }
   if(doIntersect(p.get(0),p.get(1),p.get(2),p.get(3)) || doIntersect(p.get(1),p.get(2),p.get(3),p.get(0)) ){
    return(true);
   }
+  
   return(false);
 }
+
+
 
 class CooPx
 {
@@ -143,14 +149,14 @@ class CooPx
       x=n_x;
       y=n_y;
     }
-};
+}; 
  
- /*********\
+ /*\   
  
  script di intersezione preso da qui:
  http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
  
- \*********/
+ \*/
  
  
  
@@ -211,3 +217,7 @@ boolean doIntersect(CooPx p1, CooPx q1, CooPx p2, CooPx q2)
  
     return false; // Doesn't fall in any of the above cases
 }
+
+
+/*\  fine script importato
+\*/
