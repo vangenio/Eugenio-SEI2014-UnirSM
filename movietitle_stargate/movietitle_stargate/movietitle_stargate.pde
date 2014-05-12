@@ -26,7 +26,8 @@ PImage sfuma;
 
 
 
-ArrayList<Px> pxs;
+
+ArrayList<Px> pxs = new ArrayList<Px>(1);  // Create an empty ArrayList
 Control stato=new Control();
 float posX=1;
 float posY=1;
@@ -47,7 +48,6 @@ float g_y_luce=0;
 float g_r_luce=1000; 
 int g_tracciato=0;
 int frame=0;
-
 void setup(){
   size(1024,600,OPENGL);
  
@@ -56,7 +56,6 @@ void setup(){
   g_x_centro=width/2;
   g_x_luce=width/2;
   g_y_luce=height/2;
-  pxs = new ArrayList<Px>();  // Create an empty ArrayList
   background(0);
   time=millis();
 

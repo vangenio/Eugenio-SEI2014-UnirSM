@@ -11,6 +11,11 @@ class Px{
   livello=n_livello;
   angolo=n_angolo;
   tracciato=n_tracciato;
+  println(n_x);
+  println(n_y);
+  println(n_livello);
+  println(n_angolo);
+  println(n_tracciato);
  } 
  void display(float ext_angolo,float x_centro, float y_centro){
 

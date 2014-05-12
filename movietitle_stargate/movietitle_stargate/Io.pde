@@ -1,40 +1,40 @@
+/* controllore: gestice lo stato e la posizione e lo storico degli eventi avvenuti durante lo script */
 
 class Control{
   StringList nome = new StringList();
   StringList stato = new StringList();
   IntList time = new IntList();
   
-  
-  void setS(String n, String s){
+  //setta lo stato di una determinata fase
+  void setS(String n, String s){   
     if(getS(n)!=s){
       nome.append(n);
       stato.append(s);
       time.append(millis());
     }
-  }
+  }//setT
   
+  //restituisce il momento in cui è stata settato l'ultima volta lo stato
   int getT(String n){
-   int tmp_i=-1;
+    int tmp_i=-1;
     for(int i=nome.size()-1; i>=0;i--){
-     if(nome.get(i) == n ){
-       tmp_i=i;
-     break;}
+      if(nome.get(i) == n ){
+        tmp_i=i;
+        break;
+      }
     }
-
     if(tmp_i==-1) return(-1);
-    
-    else{
-      return time.get(tmp_i);
-    }
-  }
+    else return(time.get(tmp_i));
+  } //getT
   
+  // restituisce l'ultimo stato per la fase di lavoro richiesta
   String getS(String n){
     int tmp_i=-1;
     for(int i=nome.size()-1; i>=0;i--){
      if(nome.get(i) == n ){
        tmp_i=i;
      break;}
-    }
+    }// getS
 
     if(tmp_i==-1) return("");
     
@@ -42,22 +42,25 @@ class Control{
       return stato.get(tmp_i);
     }
   }
-}
+}// Control
 
 
 
-
-void registra(){
-   //   trace(" getS "+getS(1)+" stato:"+stato);
- 
+// aggiunge un pixel all'array dei punti disegnati
+void registra(){ 
    if(pxs.size()>0){
-    Px px=pxs.get(pxs.size()-1);
-     if(dist(mouseX,mouseY,px.getX(),px.getY())>1) pxs.add(new Px(mouseX, mouseY, g_livello,g_tracciato, -g_angolo));  // Start by adding one element
+     int quale=pxs.size()-1;
+    Px px_prec=pxs.get(quale);
+     if(dist(mouseX,mouseY,px_prec.getX(),px_prec.getY())>1){
+       Px px=new Px(mouseX, mouseY, g_livello,g_tracciato, -g_angolo);
+       pxs.add(px);  
+     }
    }else{
-     pxs.add(new Px(mouseX, mouseY, g_livello,g_tracciato, -g_angolo));  // Start by adding one element
+      Px px=new Px(mouseX, mouseY, g_livello,g_tracciato, -g_angolo);
+      pxs.add(px);  
      
    }
- }
+ }//registra
 
 
 
@@ -68,148 +71,143 @@ void disegna(){
   int prev_x=0;
   int prev_y=0;
   int tmp_i=0;
-  
-    //pg.beginDraw();
-
-  
   float[] ray=new float[4];
   float[] prev_ray=new float[4];
- PImage sfuma=createImage(100, 100, ARGB);
-sfuma.loadPixels();
-for (int i = 0; i < sfuma.pixels.length; i++) {
-  sfuma.pixels[i] = color(255, 255, 255, 100*cos((float(i) % float(sfuma.width))/float(sfuma.width)*PI/2)); 
-}
-sfuma.updatePixels();
- 
-  for(int i=0; i<pxs.size();i++){
-    Px px=pxs.get(i);
-    
-    int bordo=0;
+  PImage sfuma=createImage(100, 100, ARGB);
+  sfuma.loadPixels();
+  for (int i = 0; i < sfuma.pixels.length; i++) {
+    sfuma.pixels[i] = color(255, 255, 255,255*cos((float(i) % float(sfuma.width))/float(sfuma.width)*PI/2)); 
+  }
+  sfuma.updatePixels();
+  
+  beginShape();
+  noStroke();
+  texture(sfuma);
+  int textmax=100;
+  vertex(0,0,0,0);
+  vertex(0,100,textmax,0);
+  vertex(100,100,textmax,textmax);
+  vertex(100,0,0,textmax);
+  vertex(0,0,0,0);
+  endShape();
+  if(pxs.size()>2){
+    for(int i=0; i<pxs.size()-1;i++){
+      Px px=pxs.get(i);
+      int bordo=0;
       tmp_dist+=(dist(int(prev_x),int(prev_y),int(px.getX()),int(px.getY())));
       tmp_i=i;
-     if(px.getRay(g_angolo,g_x_centro,g_y_centro,float(i)/10.0,float(millis())/3000.0)[0]>0){
-      ray=px.getRay(g_angolo,g_x_centro,g_y_centro,float(i)/10.0,float(millis())/3000.0);
-     }
-   
-    if(tmp_tracciato==px.getTracciato() ){
+      if(px.getRay(g_angolo,g_x_centro,g_y_centro,float(i)/10.0,float(millis())/3000.0)[0]>0){
+        ray=px.getRay(g_angolo,g_x_centro,g_y_centro,float(i)/10.0,float(millis())/3000.0);
+      }
+      if(tmp_tracciato==px.getTracciato() ){
+        ArrayList<CooPx> p;
+        p = new ArrayList<CooPx>();  // Create an empty ArrayList
+        p.add(new CooPx(prev_ray[0],prev_ray[1]));
+        p.add(new CooPx(prev_ray[0]+prev_ray[2]+5*noise(1000+float(millis())/3000),prev_ray[1]+prev_ray[3]+5*noise(1000+float(millis())/3000))); 
+        p.add(new CooPx(ray[0]+ray[2]+5*noise(1000+float(millis())/3000),ray[1]+ray[3]+5*noise(1000+float(millis())/3000))); 
+        p.add(new CooPx(ray[0],ray[1])); 
        
-   // if(abs(ray[2])>0 && abs(ray [3])>0 && abs(prev_ray[2])>0 && abs(prev_ray[3])>0){
-     beginShape();
-     
-  noStroke();
-      texture(sfuma);
-      fill(255,0,0);
-      int textmax=100;
-      vertex(prev_ray[0],prev_ray[1],0,0);
-      vertex(prev_ray[0]+prev_ray[2]+5*noise(1000+float(millis())/3000),prev_ray[1]+prev_ray[3]+5*noise(1000+float(millis())/3000),textmax,0);
-      vertex(ray[0]+ray[2]+5*noise(1000+float(millis())/3000),ray[1]+ray[3]+5*noise(1000+float(millis())/3000),textmax,textmax);
-      vertex(ray[0],ray[1],0,textmax);
-      vertex(prev_ray[0],prev_ray[1],0,0);
-      //println(ray);
-      endShape();
-    //}
-    }
+        if(!self_intersect(p)){
+          beginShape();
+          noStroke();
+          texture(sfuma);
+          vertex(p.get(0).x,p.get(0).y,0,0);
+          vertex(p.get(1).x,p.get(1).y,textmax,0);
+          vertex(p.get(2).x,p.get(2).y,textmax,textmax);
+          vertex(p.get(3).x,p.get(3).y,0,textmax);
+          vertex(p.get(0).x,p.get(0).y,0,0);
+          endShape();
+        }
+      }
     
-      
-    
-    
-    
-   /*   
-    if(i>0){
-    }*/
-    prev_ray=ray;
-    //prev_x=px.getX();
-    //prev_y=px.getY();
-    //px.display(g_angolo,g_x_centro,g_y_centro);
-    
-    tmp_tracciato=px.getTracciato();
+      prev_ray=ray;
+      tmp_tracciato=px.getTracciato();
+    } 
   }
-  
-  //pg.endDraw();
-  
-  //image(pg, 0, 0); 
+} // disegna
 
-  
+
+
+boolean self_intersect(ArrayList<CooPx> p ){
+  if(doIntersect(p.get(0),p.get(1),p.get(2),p.get(3)) || doIntersect(p.get(1),p.get(2),p.get(3),p.get(0)) ){
+   return(true);
+  }
+  return(false);
 }
 
-
-
-
-/*
-
-  void setS(float stato, int f, int p){  //f:fase p:profondità
-   p++;
-   stato=floor(stato)+abs(f)/pow(10,abs(p)-1);
-   if(abs(p)==1) stato=abs(f);  
-  }
-  
-  float getS(float stato, int p){//p: profondità
-    p++;
-    if(p>1) return(floor((stato%(p-1))*10));
-    else return(floor(stato));
-   
-  }
-
-
-
-
-
-
-
-class Io {
-  float s_registra=0;
-  float s_disegna=0;
-  
-  int livello=0;
-  float angolo=0;
-  int tracciato=0;  
-  //si sta parlando dello stargate
-  float diametro=1000;
-  float y_centro=diametro;
-  float x_centro=0;
-  float d_luce=250;
-  float x_luce=0;
-  float y_luce=0; 
-  float r_luce=350; 
-  
-  Io(){
-    x_centro=width/2;  
-  }
-  
-  void fa(){
-     switch(floor(stato)){
-      case 0:
-      stato++;
-      
-    x_luce=width/2;
-    y_luce=height/2;
-    x_centro=width/2;
-      break;
-      case 1: //disegna
-        registra(); 
-        disegna();     
-      
-      break;
-      case 2: //luce
-      
-      
-      break;
-      case 3: //roto
-      
-      
-      break;
-      case 4: //zoom
-      
-      
-      break;
-      case 5: //stargate
-      
-      
-      break;
+class CooPx
+{
+    float x;
+    float y;
+    CooPx(float n_x,float n_y){
+      x=n_x;
+      y=n_y;
     }
+};
  
-  }
-  
-      
+ /*********\
+ 
+ script di intersezione preso da qui:
+ http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
+ 
+ \*********/
+ 
+ 
+ 
+// Given three colinear points p, q, r, the function checks if
+// point q lies on line segment 'pr'
+boolean onSegment(CooPx p, CooPx q, CooPx r)
+{
+    if (q.x <= max(p.x, r.x) && q.x >= min(p.x, r.x) &&
+        q.y <= max(p.y, r.y) && q.y >= min(p.y, r.y))
+       return true;
+    return false;
 }
-*/
+ 
+// To find orientation of ordered triplet (p, q, r).
+// The function returns following values
+// 0 --> p, q and r are colinear
+// 1 --> Clockwise
+// 2 --> Counterclockwise
+int orientation(CooPx p, CooPx q, CooPx r)
+{
+    // See 10th slides from following link for derivation of the formula
+    // http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf
+    float val = (q.y - p.y) * (r.x - q.x) -
+              (q.x - p.x) * (r.y - q.y);
+ 
+    if (val == 0) return 0;  // colinear
+ 
+    return (val > 0)? 1: 2; // clock or counterclock wise
+}
+ 
+// The main function that returns true if line segment 'p1q1'
+// and 'p2q2' intersect.
+boolean doIntersect(CooPx p1, CooPx q1, CooPx p2, CooPx q2)
+{
+    // Find the four orientations needed for general and
+    // special cases
+    int o1 = orientation(p1, q1, p2);
+    int o2 = orientation(p1, q1, q2);
+    int o3 = orientation(p2, q2, p1);
+    int o4 = orientation(p2, q2, q1);
+ 
+    // General case
+    if (o1 != o2 && o3 != o4)
+        return true;
+ 
+    // Special Cases
+    // p1, q1 and p2 are colinear and p2 lies on segment p1q1
+    if (o1 == 0 && onSegment(p1, p2, q1)) return true;
+ 
+    // p1, q1 and p2 are colinear and q2 lies on segment p1q1
+    if (o2 == 0 && onSegment(p1, q2, q1)) return true;
+ 
+    // p2, q2 and p1 are colinear and p1 lies on segment p2q2
+    if (o3 == 0 && onSegment(p2, p1, q2)) return true;
+ 
+     // p2, q2 and q1 are colinear and q1 lies on segment p2q2
+    if (o4 == 0 && onSegment(p2, q1, q2)) return true;
+ 
+    return false; // Doesn't fall in any of the above cases
+}
