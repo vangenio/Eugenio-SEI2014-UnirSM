@@ -20,34 +20,6 @@ Premere s o S per spostare la luce di sfondo
 
 //import javax.media.opengl.*;
 //import processing.opengl.*;
-PImage sfuma;
-
-
-
-
-
-
-ArrayList<Px> pxs = new ArrayList<Px>();  // Create an empty ArrayList
-Control stato=new Control();
-float posX=1;
-float posY=1;
-float vel=0.08;
-int time=0;
-float dista=0;
-
-int g_time=0;
-float g_stato=0;
-float g_angolo=0;
-int g_livello=0;
-float g_diametro=1000;
-float g_y_centro=g_diametro;
-float g_x_centro=0;
-float g_d_luce=800;
-float g_x_luce=0;
-float g_y_luce=0; 
-float g_r_luce=1000;
-int g_tracciato=0;
-int frame=0;
 void setup(){
   size(1024,600,OPENGL);
  
@@ -64,7 +36,9 @@ void setup(){
 
 void draw(){
   
-g_d_luce=800+100*noise(1000+float(millis())/5000.0);
+g_d_luce=g_d_luce_base+100*noise(1000+float(millis())/5000.0);
+g_x_luce=width/2+g_range_luce/2-g_range_luce*noise(10000+float(millis())/5000.0);
+g_y_luce=height/2+g_range_luce/2-g_range_luce*noise(10000+float(millis())/5000.0);
 //  filter(blur); // Blurs more each time through draw()
     //filter(BLUR, 1);
 
@@ -72,22 +46,15 @@ g_d_luce=800+100*noise(1000+float(millis())/5000.0);
   
   background(0);
   if (keyPressed) {
+    if (key == 'r' || key == 'R') {
+      register=true;
+    }if (key == 'e' || key == 'E') {
+      register=false;
+    }
     if (key == 'q' || key == 'Q') {
-      if(stato.getS("ruota")!="attivo"){
-        stato.setS("registra","disabilitato");
-        stato.setS("ruota","attivo");
-         stato.setS("tracciato","finito");
-        frame=0;
-        
-      }
+      g_d_luce_base+=0.2;
     }if (key == 'w' || key == 'W') {
-      if(stato.getS("ruota")!="attivo"){
-        stato.setS("registra","disabilitato");
-        stato.setS("ruota","attivo");
-         stato.setS("tracciato","finito");
-        frame=0;
-        
-      }
+      g_d_luce_base-=0.2;
     }if (key == 'a' || key == 'A') {
       if(stato.getS("ruota")!="attivo"){
         stato.setS("registra","disabilitato");
@@ -138,10 +105,12 @@ g_d_luce=800+100*noise(1000+float(millis())/5000.0);
   
   if(stato.getS("ruota")=="attivo" && g_angolo<2*PI){
     int tot_frame_roto=600;
-    float rotaz=PI*2/5;
+    float rotaz=PI*2/7;
     if(frame<tot_frame_roto){
       frame++;
-     g_angolo+=rotaz/tot_frame_roto;//abs((rotaz/2 * (cos(PI/tot_frame_roto*frame)))-(rotaz/2 * (cos(PI/tot_frame_roto*(frame-1)))));
+      
+     g_angolo+=rotaz/2*abs(cos((float(frame)+1.0)/float(tot_frame_roto)*PI)-cos(float(frame)/float(tot_frame_roto)*PI));
+     //g_angolo+=rotaz/tot_frame_roto;//abs((rotaz/2 * (cos(PI/tot_frame_roto*frame)))-(rotaz/2 * (cos(PI/tot_frame_roto*(frame-1)))));
      // else g_angolo+=(rotaz * abs(sin(PI/tot_frame_roto*(frame-1))))-(rotaz * (sin(PI/tot_frame_roto*(frame))));
     //g_d_luce=600;
     //g_r_luce=800;
@@ -159,7 +128,7 @@ g_d_luce=800+100*noise(1000+float(millis())/5000.0);
 
 disegna(pxs);  
   
-//saveFrame("starcagate-######.png");  
+if(register)saveFrame("starcagate-######.png");  
   
   
 }
