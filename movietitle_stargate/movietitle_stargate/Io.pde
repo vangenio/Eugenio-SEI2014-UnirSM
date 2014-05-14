@@ -222,3 +222,55 @@ boolean doIntersect(CooPx p1, CooPx q1, CooPx p2, CooPx q2)
 
 /*\  fine script importato
 \*/
+
+
+
+
+
+void draw_font(){
+  
+  
+ 
+  // VERY IMPORTANT: Allways initialize the library in the setup
+  RG.init(this);
+  
+  //  Load the font file we want to use (the file must be in the data folder in the sketch floder), with the size 60 and the alignment CENTER
+  grp = RG.getText("STaRGaTE", "STARGATE.TTF", 100, CENTER);
+ // Clean frame
+  
+  // Set the origin to draw in the middle of the sketch
+  //translate(width/2, 3*height/4);
+  
+  // Draw the group of shapes
+  //RG.setPolygonizer(RG.ADAPTATIVE);
+ // grp.draw();
+  
+  // Get the points on the curve's shape
+ // RG.setPolygonizer(RG.UNIFORMSTEP);
+  //RG.setPolygonizerStep(map(float(mouseY), 0.0, float(height), 0.0, 1.0));
+  
+  //RG.setPolygonizer(RG.UNIFORMLENGTH);
+ //RG.setPolygonizerLength(3);
+  points = grp.getPointsInPaths();
+  
+  // If there are any points
+  if(points != null){
+   for(int i=0; i<points.length; i++){ 
+   for(int j=0; j<points[i].length; j++){ 
+    
+      if(pxs.size()>0){
+      int quale=pxs.size()-1;
+      Px px_prec=pxs.get(quale);
+      if(dist( points[i][j].x, points[i][j].y,px_prec.getX(),px_prec.getY())>1){
+         Px px=new Px(int(points[i][j].x)+width/2, int(points[i][j].y)+height/2, g_livello,g_tracciato, -g_angolo);
+         pxs.add(px);  
+      }
+      }else{
+        Px px=new Px(int(points[i][j].x)+width/2, int(points[i][j].y)+height/2, g_livello,g_tracciato, -g_angolo);
+        pxs.add(px);  
+      }
+    }
+    g_tracciato++;
+   }
+  } 
+}

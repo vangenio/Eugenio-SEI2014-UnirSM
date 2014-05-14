@@ -1,3 +1,11 @@
+import geomerative.*;
+
+// Declare the objects we are going to use, so that they are accesible from setup() and from draw()
+RFont f;
+RShape grp;
+RPoint[][] points;
+
+
 PImage sfuma;
 ArrayList<Px> pxs = new ArrayList<Px>();  // Create an empty ArrayList
 Control stato=new Control();
@@ -12,7 +20,7 @@ float g_stato=0;
 float g_angolo=0;
 int g_livello=0;
 float g_diametro=2000;
-
+int code_register=(int) random(999999999);
 float g_y_centro=g_diametro;
 float g_x_centro=0;
 float g_d_luce=0;

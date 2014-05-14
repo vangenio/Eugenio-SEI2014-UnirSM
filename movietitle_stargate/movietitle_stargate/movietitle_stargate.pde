@@ -20,6 +20,10 @@ Premere s o S per spostare la luce di sfondo
 
 //import javax.media.opengl.*;
 //import processing.opengl.*;
+
+
+
+
 void setup(){
   size(1024,600,OPENGL);
  
@@ -43,7 +47,7 @@ g_y_luce=height/2+g_range_luce/2-g_range_luce*noise(10000+float(millis())/5000.0
     //filter(BLUR, 1);
 
 //  PImage img;
-  
+
   background(0);
   if (keyPressed) {
     if (key == 'r' || key == 'R') {
@@ -52,9 +56,9 @@ g_y_luce=height/2+g_range_luce/2-g_range_luce*noise(10000+float(millis())/5000.0
       register=false;
     }
     if (key == 'q' || key == 'Q') {
-      g_d_luce_base+=0.2;
+      g_d_luce_base+=0.5;
     }if (key == 'w' || key == 'W') {
-      g_d_luce_base-=0.2;
+      g_d_luce_base-=0.5;
     }if (key == 'a' || key == 'A') {
       if(stato.getS("ruota")!="attivo"){
         stato.setS("registra","disabilitato");
@@ -83,6 +87,7 @@ g_y_luce=height/2+g_range_luce/2-g_range_luce*noise(10000+float(millis())/5000.0
   }
   if(stato.getS("setup")=="avvia"){
     stato.setS("setup","done");
+    draw_font();
     stato.setS("registra","abilitata");
   }
   if(stato.getS("luce")=="segui mouse"){
@@ -109,7 +114,7 @@ g_y_luce=height/2+g_range_luce/2-g_range_luce*noise(10000+float(millis())/5000.0
     if(frame<tot_frame_roto){
       frame++;
       
-     g_angolo+=rotaz/2*abs(cos((float(frame)+1.0)/float(tot_frame_roto)*PI)-cos(float(frame)/float(tot_frame_roto)*PI));
+     g_angolo-=rotaz/2*abs(cos((float(frame)+1.0)/float(tot_frame_roto)*PI)-cos(float(frame)/float(tot_frame_roto)*PI));
      //g_angolo+=rotaz/tot_frame_roto;//abs((rotaz/2 * (cos(PI/tot_frame_roto*frame)))-(rotaz/2 * (cos(PI/tot_frame_roto*(frame-1)))));
      // else g_angolo+=(rotaz * abs(sin(PI/tot_frame_roto*(frame-1))))-(rotaz * (sin(PI/tot_frame_roto*(frame))));
     //g_d_luce=600;
@@ -127,8 +132,8 @@ g_y_luce=height/2+g_range_luce/2-g_range_luce*noise(10000+float(millis())/5000.0
 
 
 disegna(pxs);  
-  
-if(register)saveFrame("starcagate-######.png");  
+ 
+if(register)saveFrame("starcagate-######-"+code_register+".png");  
   
   
 }
